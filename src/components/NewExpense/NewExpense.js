@@ -4,24 +4,27 @@ import ExpenseForm from './ExpenseForm';
 
 const NewExpense = (props) => {
 
-    const [showForm, setShowForm] = useState(false);
-    const [showButton, setShowButton] = useState(true);
+    const [isShow, setShow] = useState(false);
     const saveExpenseDataHandler = (enteredExpenseData) => {
         const expenseData = {
           ...enteredExpenseData,
           id: Math.random().toString()
         };
         props.onAddExpense(expenseData);
+        setShow(false);
       };
 
     const onClickHandler = () => {
-      setShowForm(true)
-      setShowButton(false)}
+      setShow(true);
+    };
+    const onCancel = () => {
+      setShow(false);
+    };
     
       return (
         <div className='new-expense'>
-          {showButton ? <button onClick= {onClickHandler}>Add Expense</button> : null } 
-          {showForm ? <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} /> : null}
+          {!isShow && <button onClick= {onClickHandler}>Add Expense</button>} 
+          {isShow && <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} onCancel = {onCancel} />}
           
         </div>
       );
